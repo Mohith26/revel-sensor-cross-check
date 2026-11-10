@@ -220,7 +220,7 @@ function renderIso() {
     const k = a.detectIdx;
     vbox = `<div class="vbox"><div><div class="lb">${a.virtual.ch} at XC</div><div class="vl">${r.ch[a.virtual.ch][k].toFixed(1)} <small>psi</small></div></div><div><div class="lb">cross-check estimate</div><div class="vl" style="color:#5ff08f">${a.virtual.values[k].toFixed(1)} <small>± ${a.virtual.halfWidth.toFixed(1)} psi</small></div></div><div><div class="lb">${r.abort ? 'transducer / XC at abort' : 'at end of mainstage'}</div><div class="vl">${r.abort ? `${r.ch[a.virtual.ch][r.abort.i].toFixed(1)} <small>/</small> <span style="color:#5ff08f">${fx(a.virtual.values[r.abort.i - 1], 1)}</span>` : '—'}</div></div></div>`;
   }
-  $('iso').innerHTML = `<table class="tbl"><tr><th>Hypothesis</th><th class="r">Bias in window</th><th>Relative likelihood</th></tr>${rows.join('')}</table>
+  $('iso').innerHTML = `<table class="tbl"><tr><th>Hypothesis</th><th class="r">Bias</th><th>Likelihood</th></tr>${rows.join('')}</table>
     <div class="why"><b>${v.kind === 'sensor' ? 'Trust the engine, not the transducer.' : v.kind === 'component' ? 'The transducers agree; the hardware changed.' : 'Two explanations fit equally.'}</b> ${X.explain(model, a)} Residual left after the top hypothesis: p = ${fx(a.pExplained, 2)} vs nominal windows (before: ${fx(a.pNominalWindow, 3)}).</div>${vbox}`;
 }
 
