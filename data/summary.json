@@ -1,0 +1,270 @@
+{
+  "relations": [
+    {
+      "id": "fuel_feed",
+      "target": "PT_FV_11",
+      "features": [
+        "PT_FT_01"
+      ],
+      "beta": [
+        9.625,
+        0.94376
+      ],
+      "r2": 0.9783,
+      "scale": 1.3964,
+      "limit": 3.57
+    },
+    {
+      "id": "ox_feed",
+      "target": "PT_OV_12",
+      "features": [
+        "PT_OT_02"
+      ],
+      "beta": [
+        6.86689,
+        0.95594
+      ],
+      "r2": 0.9874,
+      "scale": 1.135,
+      "limit": 2.902
+    },
+    {
+      "id": "fuel_mfv",
+      "target": "PT_FVX_13",
+      "features": [
+        "PT_FM_21",
+        "PT_FV_11"
+      ],
+      "beta": [
+        0.38156,
+        0.98815,
+        0.02733
+      ],
+      "r2": 0.9415,
+      "scale": 1.2072,
+      "limit": 3.086
+    },
+    {
+      "id": "fuel_injector",
+      "target": "PT_FM_21",
+      "features": [
+        "PT_CC_31",
+        "PT_FV_11"
+      ],
+      "beta": [
+        31.39931,
+        0.85547,
+        0.16109
+      ],
+      "r2": 0.9081,
+      "scale": 1.3633,
+      "limit": 3.485
+    },
+    {
+      "id": "ox_injector",
+      "target": "PT_OM_22",
+      "features": [
+        "PT_CC_31",
+        "PT_OV_12"
+      ],
+      "beta": [
+        6.92055,
+        1.00326,
+        0.16861
+      ],
+      "r2": 0.9184,
+      "scale": 1.5806,
+      "limit": 4.041
+    },
+    {
+      "id": "combustion",
+      "target": "PT_CC_31",
+      "features": [
+        "PT_FV_11",
+        "PT_OV_12"
+      ],
+      "beta": [
+        113.14519,
+        0.15597,
+        0.22657
+      ],
+      "r2": 0.6573,
+      "scale": 2.3815,
+      "limit": 6.088
+    },
+    {
+      "id": "thrust",
+      "target": "LC_TH_41",
+      "features": [
+        "PT_CC_31"
+      ],
+      "beta": [
+        15.5373,
+        1.93859
+      ],
+      "r2": 0.8343,
+      "scale": 3.198,
+      "limit": 8.175
+    }
+  ],
+  "calibration": {
+    "runs": 70,
+    "mode": "pac",
+    "alpha": 0.05,
+    "k": 70,
+    "Q": 2.5564,
+    "bound90": 0.0324
+  },
+  "recent": [
+    {
+      "run": "hot_fire_0321",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 0.763,
+      "p": 0.7324
+    },
+    {
+      "run": "hot_fire_0322",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 1.295,
+      "p": 0.2535
+    },
+    {
+      "run": "hot_fire_0323",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 0.932,
+      "p": 0.5493
+    },
+    {
+      "run": "hot_fire_0324",
+      "fault": {
+        "type": "sensor_shift",
+        "ch": "LC_TH_41",
+        "t0": 1.6,
+        "size": 26
+      },
+      "abort": null,
+      "detected": true,
+      "detect_t_after_mainstage": 1.83,
+      "isolated": [
+        "sensor:LC_TH_41",
+        "component:thrust"
+      ],
+      "score": 7.039,
+      "p": 0.0141
+    },
+    {
+      "run": "hot_fire_0325",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 1.005,
+      "p": 0.5211
+    },
+    {
+      "run": "hot_fire_0326",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 1.758,
+      "p": 0.0986
+    },
+    {
+      "run": "hot_fire_0327",
+      "fault": {
+        "type": "injector_fuel",
+        "t0": 1.4,
+        "factor": 1.22
+      },
+      "abort": null,
+      "detected": true,
+      "detect_t_after_mainstage": 1.63,
+      "isolated": [
+        "component:fuel_injector"
+      ],
+      "score": 6.125,
+      "p": 0.0141
+    },
+    {
+      "run": "hot_fire_0328",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 0.494,
+      "p": 0.8732
+    },
+    {
+      "run": "hot_fire_0329",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 0.708,
+      "p": 0.7465
+    },
+    {
+      "run": "hot_fire_0330",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 1.073,
+      "p": 0.4366
+    },
+    {
+      "run": "hot_fire_0331",
+      "fault": null,
+      "abort": null,
+      "detected": false,
+      "detect_t_after_mainstage": null,
+      "isolated": null,
+      "score": 0.737,
+      "p": 0.7465
+    },
+    {
+      "run": "hot_fire_0332",
+      "fault": {
+        "type": "sensor_drift",
+        "ch": "PT_FM_21",
+        "t0": 1.2,
+        "rate": 22
+      },
+      "abort": {
+        "alert": "Fuel_manifold_low_pres",
+        "t_after_mainstage": 3.48
+      },
+      "detected": true,
+      "detect_t_after_mainstage": 1.52,
+      "isolated": [
+        "sensor:PT_FM_21"
+      ],
+      "score": 38.432,
+      "p": 0.0141
+    }
+  ],
+  "heldOut": {
+    "nRuns": 400,
+    "conformalRate": 0.005,
+    "naiveRate": 0,
+    "naiveK": 4
+  }
+}
