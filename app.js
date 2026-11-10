@@ -149,9 +149,10 @@ function renderPID() {
   // relation chips
   for (const [id, [cx, cy]] of Object.entries(PID.chips)) {
     const e = model.rels.findIndex(x => x.id === id);
-    const u = a.r[e][i] / model.scale[e];
+    a.susSigned ||= model.rels.map((R, k) => X.sustainedSigned(Float64Array.from(a.r[k], x => x / model.scale[k]), a.mask));
+    const u = a.susSigned[e][i];
     const isF = fired.has(id), now = Number.isFinite(u);
-    const label = `${relById(id).name.toLowerCase()} ${now ? Math.abs(u).toFixed(1) + 'σ' : '—'}`;
+    const label = `${relById(id).name.toLowerCase()} ${now ? (u >= 0 ? '+' : '') + u.toFixed(1) + 'σ' : '—'}`;
     const w = 14 + label.length * 6.05;
     s += `<g><rect x="${cx}" y="${cy - 9}" width="${w}" height="18" fill="${isF ? '#3a0e12' : '#111'}" stroke="${isF ? '#f7222f' : '#2f2f2f'}"/><circle cx="${cx + 7}" cy="${cy}" r="2.6" fill="${isF ? '#f7222f' : now ? '#06d84a' : '#4a4a4a'}"/><text x="${cx + 13}" y="${cy + 3.5}" font-size="10" fill="${isF ? '#ff8a90' : '#b8b8b8'}">${label}</text></g>`;
   }
@@ -219,7 +220,7 @@ function renderIso() {
     const k = a.detectIdx;
     vbox = `<div class="vbox"><div><div class="lb">${a.virtual.ch} at XC</div><div class="vl">${r.ch[a.virtual.ch][k].toFixed(1)} <small>psi</small></div></div><div><div class="lb">cross-check estimate</div><div class="vl" style="color:#5ff08f">${a.virtual.values[k].toFixed(1)} <small>± ${a.virtual.halfWidth.toFixed(1)} psi</small></div></div><div><div class="lb">${r.abort ? 'transducer / XC at abort' : 'at end of mainstage'}</div><div class="vl">${r.abort ? `${r.ch[a.virtual.ch][r.abort.i].toFixed(1)} <small>/</small> <span style="color:#5ff08f">${fx(a.virtual.values[r.abort.i - 1], 1)}</span>` : '—'}</div></div></div>`;
   }
-  $('iso').innerHTML = `<table class="tbl"><tr><th>Hypothesis</th><th class="r">Estimate</th><th>Relative likelihood</th></tr>${rows.join('')}</table>
+  $('iso').innerHTML = `<table class="tbl"><tr><th>Hypothesis</th><th class="r">Bias in window</th><th>Relative likelihood</th></tr>${rows.join('')}</table>
     <div class="why"><b>${v.kind === 'sensor' ? 'Trust the engine, not the transducer.' : v.kind === 'component' ? 'The transducers agree; the hardware changed.' : 'Two explanations fit equally.'}</b> ${X.explain(model, a)} Residual left after the top hypothesis: p = ${fx(a.pExplained, 2)} vs nominal windows (before: ${fx(a.pNominalWindow, 3)}).</div>${vbox}`;
 }
 
@@ -305,7 +306,8 @@ function renderPlots() {
   ], { bands: a.virtual ? [{ lo, hi, color: '#06c94a' }] : [], hlines: red ? [{ v: red.value, color: '#b3202a' }] : [], marks, include: red && r.abort ? [red.value] : [] });
   // plot B: normalized residuals and the calibrated limit
   const svgB = plotFrame($('plotB'), 'Sustained residual · 200 ms', 'σ');
-  const ser = model.rels.map((R, e) => ({ name: R.id, v: X.sustainedSigned(Float64Array.from(a.r[e], x => x / model.scale[e]), a.mask), color: COLORS[e], w: 1.4, dp: 2 }));
+  a.susSigned ||= model.rels.map((R, k) => X.sustainedSigned(Float64Array.from(a.r[k], x => x / model.scale[k]), a.mask));
+  const ser = model.rels.map((R, e) => ({ name: R.id, v: a.susSigned[e], color: COLORS[e], w: 1.4, dp: 2 }));
   drawPlot(svgB, ser, { hlines: Number.isFinite(cal.Q) ? [{ v: cal.Q, color: '#7a7a7a' }, { v: -cal.Q, color: '#7a7a7a' }] : [], marks, include: Number.isFinite(cal.Q) ? [cal.Q, -cal.Q] : [] });
 }
 
